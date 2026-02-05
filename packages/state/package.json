@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@legendapp/state": "^2.1.15",
-    "@training/db": "*"
+    "@training/db": "*",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "typescript": "^5"
   },
   "peerDependencies": {

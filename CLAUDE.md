@@ -69,3 +69,5 @@ myState$.user = newUser  // Won't work
 - Never reassign observables directly — use `set()`
 - Never mutate raw data — always go through observable methods
 - Don't clone objects before setting — Legend State handles deep equality
+
+**Note:** Using v2.x. Supabase sync plugin (`syncedSupabase`) requires v3+ (currently beta).

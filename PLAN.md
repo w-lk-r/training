@@ -7,19 +7,20 @@ A step-by-step plan building up complexity incrementally. Each phase is usable b
 ## Phase 1: Foundation
 
 ### 1.1 Supabase Setup
-- [ ] Create Supabase project
-- [ ] Add `@supabase/supabase-js` to a new `packages/db` workspace
-- [ ] Create shared Supabase client with env config
-- [ ] Set up auth (email/password to start)
-- [ ] Test: Can sign up, sign in from both web and mobile
+- [x] Create Supabase project
+- [x] Add `@supabase/supabase-js` to a new `packages/db` workspace
+- [x] Create shared Supabase client with env config
+- [x] Set up auth (email/password to start)
+- [x] Test: Can sign up, sign in from web
+- [x] Test: Can sign up, sign in from mobile (⚠️ email redirect needs polish - works but UX is rough)
 
 ### 1.2 Legend State Setup
-- [ ] Add `@legendapp/state` and sync plugins to `packages/state`
-- [ ] Configure persistence: MMKV for mobile, IndexedDB for web
-- [ ] Create basic `user$` observable with Supabase auth sync
-- [ ] Test: Auth state persists across app restarts
+- [x] Add `@legendapp/state` and sync plugins to `packages/state`
+- [x] Configure persistence: MMKV for mobile (Supabase client), localStorage for web (default)
+- [x] Create basic `user$` observable with Supabase auth sync
+- [x] Test: Auth state persists across app restarts
 
-**Checkpoint:** Users can sign up/in, state persists offline
+**Checkpoint:** ✅ Users can sign up/in, state persists offline
 
 ---
 
