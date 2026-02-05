@@ -27,12 +27,12 @@ A step-by-step plan building up complexity incrementally. Each phase is usable b
 ## Phase 2: Exercise Database
 
 ### 2.1 Exercise Schema
-- [ ] Create `exercises` table in Supabase:
+- [x] Create `exercises` table in Supabase:
   ```sql
   id, name, category, equipment, muscles, instructions
   ```
-- [ ] Seed with ~50 common exercises (squat, bench, clean, etc.)
-- [ ] Add types to `packages/db/types.ts`
+- [x] Seed with ~50 common exercises (squat, bench, clean, etc.)
+- [x] Add types to `packages/db/types.ts`
 
 ### 2.2 Exercise State
 - [ ] Create `exercises$` observable in Legend State
