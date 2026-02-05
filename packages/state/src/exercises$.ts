@@ -1,6 +1,6 @@
 import { observable } from '@legendapp/state'
 import { supabase } from '@training/db'
-import type { Exercise } from '@training/db'
+import type { Exercise, MuscleGroup } from '@training/db'
 
 interface ExercisesState {
   items: Record<string, Exercise>
@@ -31,8 +31,16 @@ export async function fetchExercises() {
 
     // Convert array to record keyed by id
     const items: Record<string, Exercise> = {}
-    for (const exercise of data ?? []) {
-      items[exercise.id] = exercise as Exercise
+    if (data) {
+      for (const row of data) {
+        // Cast from database row type to app type
+        items[row.id] = {
+          ...row,
+          category: row.category as Exercise['category'],
+          equipment: row.equipment as Exercise['equipment'],
+          muscles: row.muscles as Exercise['muscles'],
+        }
+      }
     }
 
     exercises$.items.set(items)
@@ -68,6 +76,6 @@ export function filterByCategory(category: Exercise['category']): Exercise[] {
 }
 
 // Filter exercises by muscle group
-export function filterByMuscle(muscle: string): Exercise[] {
-  return getExercisesList().filter(e => e.muscles.includes(muscle as any))
+export function filterByMuscle(muscle: MuscleGroup): Exercise[] {
+  return getExercisesList().filter(e => e.muscles.includes(muscle))
 }
