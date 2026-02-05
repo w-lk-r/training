@@ -40,6 +40,9 @@ coverage/
 *.tsbuildinfo
 next-env.d.ts
 
+# Compiled JS from TypeScript sources
+apps/**/*.js
+
 # env files
 .env*
 !.env.example
