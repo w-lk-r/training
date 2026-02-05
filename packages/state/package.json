@@ -8,6 +8,9 @@
     ".": "./src/index.ts",
     "./auth": "./src/auth$.ts"
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@legendapp/state": "^2.1.15",
     "@training/db": "*",

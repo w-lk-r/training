@@ -1,6 +1,6 @@
 import { observable } from '@legendapp/state'
 import { supabase as defaultSupabase, createSupabaseClient, StorageAdapter } from '@training/db'
-import type { User, SupabaseClient } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 
 interface AuthState {
   user: User | null
@@ -15,7 +15,7 @@ export const auth$ = observable<AuthState>({
 })
 
 // Active Supabase client (can be configured with custom storage)
-let supabase: SupabaseClient = defaultSupabase
+let supabase: typeof defaultSupabase = defaultSupabase
 
 // Configure auth with custom storage (call before initAuth on mobile)
 export function configureAuth(storage: StorageAdapter) {
