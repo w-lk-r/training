@@ -1,12 +1,7 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+// Auto-generated from Supabase schema — re-run: npm run db:types
+export type { Database, Json } from './database.types'
 
-// App-level types (stable, not auto-generated)
+// App-level types (stable, manually maintained)
 export interface User {
   id: string
   email: string
@@ -64,54 +59,4 @@ export interface Exercise {
   instructions: string | null
   created_at: string
   updated_at: string
-}
-
-// Database types (ideally generated via `npx supabase gen types typescript`)
-export interface Database {
-  public: {
-    Tables: {
-      exercises: {
-        Row: {
-          id: string
-          name: string
-          category: string
-          equipment: string[]
-          muscles: string[]
-          instructions: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          category: string
-          equipment?: string[]
-          muscles?: string[]
-          instructions?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          category?: string
-          equipment?: string[]
-          muscles?: string[]
-          instructions?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-  }
 }

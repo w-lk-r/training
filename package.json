@@ -10,6 +10,7 @@
     "dev:mobile": "npm run start -w mobile",
     "build:web": "npm run build -w web",
     "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "db:types": "npx supabase gen types typescript --linked > packages/db/src/database.types.ts"
   }
 }
