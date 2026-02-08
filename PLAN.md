@@ -35,8 +35,8 @@ A step-by-step plan building up complexity incrementally. Each phase is usable b
 - [x] Add types to `packages/db/types.ts`
 
 ### 2.2 Exercise State
-- [ ] Create `exercises$` observable in Legend State
-- [ ] Sync from Supabase (read-only for now, exercises are shared)
+- [x] Create `exercises$` observable in Legend State
+- [x] Sync from Supabase (read-only for now, exercises are shared)
 - [ ] Build simple exercise list/search component
 - [ ] Test: Exercises load, searchable, work offline
 

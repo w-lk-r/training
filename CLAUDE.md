@@ -23,28 +23,33 @@ This is a monorepo using npm workspaces with two applications sharing React 19.1
 
 - **apps/web** - Next.js 16 with App Router, Tailwind CSS 4, TypeScript
 - **apps/mobile** - Expo SDK 54 with React Native 0.81, New Architecture enabled
-- **packages/** - Shared packages (currently empty, ready for use)
+- **packages/state** - Shared state management (`@training/state`) using Legend State v3
+- **packages/db** - Shared database client (`@training/db`) with Supabase and type definitions
 
 ### Web App (Next.js)
 - Uses App Router (`app/` directory)
 - Tailwind CSS v4 with PostCSS
 - ESLint with Next.js core-web-vitals and TypeScript configs
 - Geist font family via `next/font`
+- Configures persistence with `ObservablePersistLocalStorage`
 
 ### Mobile App (Expo)
-- Expo managed workflow
+- Expo managed workflow with **Expo Router** for file-based routing
+- Routes live in `apps/mobile/app/` — screen components in `apps/mobile/components/screens/`
+- Uses `Stack.Protected` guards for auth-based routing in `_layout.tsx`
 - New Architecture enabled (`newArchEnabled: true`)
 - Supports iOS, Android, and web targets
+- Configures persistence with `ObservablePersistMMKV` (via `react-native-mmkv`)
 
-### State Management (Legend State v3)
+### State Management (Legend State v3 beta)
 
-Uses `@legendapp/state` for reactive state. See: https://www.legendapp.com/open-source/state/v3/usage/observable/
+Uses `@legendapp/state@beta` (v3) for reactive state with built-in Supabase sync and local persistence.
 
 **React Components - Subscribing to observables:**
 ```tsx
-// CORRECT: useSelector subscribes to existing observables
-import { useSelector } from '@legendapp/state/react'
-const value = useSelector(myState$.someValue)
+// CORRECT: useValue subscribes to existing observables
+import { useValue } from '@legendapp/state/react'
+const value = useValue(myState$.someValue)
 
 // WRONG: useObservable creates NEW local observables, not subscriptions
 const value = useObservable(myState$.someValue) // Don't do this!
@@ -70,4 +75,21 @@ myState$.user = newUser  // Won't work
 - Never mutate raw data — always go through observable methods
 - Don't clone objects before setting — Legend State handles deep equality
 
-**Note:** Using v2.x. Supabase sync plugin (`syncedSupabase`) requires v3+ (currently beta).
+### Persistence & Sync
+
+Uses `syncedSupabase` from Legend State v3 to auto-sync observables with Supabase and persist locally.
+
+```tsx
+// Define a synced observable (lazy — activates on first .get())
+import { syncedSupabase } from '@legendapp/state/sync-plugins/supabase'
+
+const data$ = observable(syncedSupabase({
+  supabase,
+  collection: 'table_name',
+  persist: { name: 'local-key' },
+}))
+```
+
+Each app must call `configurePersistence(plugin)` at startup to set the platform-specific persist plugin before any synced observable is accessed.
+
+Sync state (loading, errors) is available via `syncState(observable$)` from `@legendapp/state`.

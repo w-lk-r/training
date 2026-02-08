@@ -3,10 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { useValue } from '@legendapp/state/react'
-import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage'
-import { auth$, initAuth, signOut, configurePersistence } from '@training/state'
-
-configurePersistence(ObservablePersistLocalStorage)
+import { auth$, initAuth, signOut } from '@training/state'
 
 export default function Home() {
   const user = useValue(auth$.user)
