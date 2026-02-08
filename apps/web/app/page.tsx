@@ -2,13 +2,16 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { useSelector } from '@legendapp/state/react'
-import { auth$, initAuth, signOut } from '@training/state'
+import { useValue } from '@legendapp/state/react'
+import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage'
+import { auth$, initAuth, signOut, configurePersistence } from '@training/state'
+
+configurePersistence(ObservablePersistLocalStorage)
 
 export default function Home() {
-  const user = useSelector(auth$.user)
-  const isLoading = useSelector(auth$.isLoading)
-  const isAuthenticated = useSelector(auth$.isAuthenticated)
+  const user = useValue(auth$.user)
+  const isLoading = useValue(auth$.isLoading)
+  const isAuthenticated = useValue(auth$.isAuthenticated)
 
   useEffect(() => {
     initAuth()

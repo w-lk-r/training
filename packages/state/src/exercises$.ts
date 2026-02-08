@@ -1,65 +1,31 @@
-import { observable } from '@legendapp/state'
+import { observable, syncState } from '@legendapp/state'
+import { syncedSupabase } from '@legendapp/state/sync-plugins/supabase'
 import { supabase } from '@training/db'
 import type { Exercise, MuscleGroup } from '@training/db'
 
-interface ExercisesState {
-  items: Record<string, Exercise>
-  isLoading: boolean
-  error: string | null
-  lastFetched: number | null
-}
+export const exercises$ = observable<Record<string, Exercise>>(
+  syncedSupabase({
+    supabase,
+    collection: 'exercises',
+    actions: ['read'],
+    as: 'object',
+    persist: {
+      name: 'exercises',
+    },
+  })
+)
 
-export const exercises$ = observable<ExercisesState>({
-  items: {},
-  isLoading: false,
-  error: null,
-  lastFetched: null,
-})
-
-// Fetch all exercises from Supabase
-export async function fetchExercises() {
-  exercises$.isLoading.set(true)
-  exercises$.error.set(null)
-
-  try {
-    const { data, error } = await supabase
-      .from('exercises')
-      .select('*')
-      .order('name')
-
-    if (error) throw error
-
-    // Convert array to record keyed by id
-    const items: Record<string, Exercise> = {}
-    if (data) {
-      for (const row of data) {
-        // Cast from database row type to app type
-        items[row.id] = {
-          ...row,
-          category: row.category as Exercise['category'],
-          equipment: row.equipment as Exercise['equipment'],
-          muscles: row.muscles as Exercise['muscles'],
-        }
-      }
-    }
-
-    exercises$.items.set(items)
-    exercises$.lastFetched.set(Date.now())
-  } catch (err) {
-    exercises$.error.set(err instanceof Error ? err.message : 'Failed to fetch exercises')
-  } finally {
-    exercises$.isLoading.set(false)
-  }
-}
+// Sync state for loading/error tracking
+export const exercisesSyncState$ = syncState(exercises$)
 
 // Get exercises as array (for lists)
 export function getExercisesList(): Exercise[] {
-  return Object.values(exercises$.items.get())
+  return Object.values(exercises$.get())
 }
 
 // Get exercise by ID
 export function getExercise(id: string): Exercise | undefined {
-  return exercises$.items[id].get()
+  return exercises$[id].get()
 }
 
 // Search exercises by name
